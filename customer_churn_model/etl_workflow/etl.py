@@ -19,7 +19,7 @@ NEW_TRAIN_DATA = config('NEW_TRAIN_DATA')
 NEW_TEST_DATA = config('NEW_TEST_DATA')
 
 
-def import_data(*, file_path: str) -> pd.DataFrame:
+def import_data(file_path: str) -> pd.DataFrame:
     '''Load dataset for the csv found at the path
 
     :param file_path: (str)
@@ -28,11 +28,11 @@ def import_data(*, file_path: str) -> pd.DataFrame:
     :return: (dataframe)
     Pandas dataframe
     '''
-    df = pd.read_csv(file_path)
-    return df
+    raw_df = pd.read_csv(file_path)
+    return raw_df
 
 
-def transform_data(*, df: pd.Dataframe) -> pd.DataFrame:
+def transform_data(raw_df: pd.DataFrame) -> pd.DataFrame:
     '''Transform the raw dataset doing two steps of transformation.
     The first transformation is to transform the target variable in
     numeric. The second transformation is to drop some variables that
@@ -44,17 +44,17 @@ def transform_data(*, df: pd.Dataframe) -> pd.DataFrame:
     :return: (dataframe)
     Pandas dataframe transformed
     '''
-    df = import_data(df)
+    raw_df = import_data(raw_df)
 
     # transformations
-    df_transformed = df.copy()
-    df_transformed[TARGET_AFTER_ETL] = df[TARGET_BEFORE_ETL].apply(
+    df_transformed = raw_df.copy()
+    df_transformed[TARGET_AFTER_ETL] = raw_df[TARGET_BEFORE_ETL].apply(
         lambda val: 0 if val == "Existing Customer" else 1)
     df_transformed.drop([VARS_TO_DROP], axis=1, inplace=True)
     return df_transformed
 
 
-def split_dataset(*, df_transformed: pd.DataFrame) -> pd.DataFrame:
+def split_dataset(df_transformed: pd.DataFrame) -> pd.DataFrame:
     '''Function to split the transformed dataset in train and test.
 
     :param df_transformed: (dataframe)
