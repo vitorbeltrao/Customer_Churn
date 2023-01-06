@@ -10,7 +10,9 @@ from decouple import config
 
 
 # config
-VARS_TO_DROP = config('VARS_TO_DROP')
+VARS_TO_DROP = config(
+    'VARS_TO_DROP', cast=lambda v: [
+        s.strip() for s in v.split(',')])
 TARGET_BEFORE_ETL = config('TARGET_BEFORE_ETL')
 TARGET_AFTER_ETL = config('TARGET_AFTER_ETL')
 TEST_SIZE = config('TEST_SIZE', cast=float)
@@ -44,13 +46,10 @@ def transform_data(raw_df: pd.DataFrame) -> pd.DataFrame:
     :return: (dataframe)
     Pandas dataframe transformed
     '''
-    raw_df = import_data(raw_df)
-
-    # transformations
     df_transformed = raw_df.copy()
     df_transformed[TARGET_AFTER_ETL] = raw_df[TARGET_BEFORE_ETL].apply(
         lambda val: 0 if val == "Existing Customer" else 1)
-    df_transformed.drop([VARS_TO_DROP], axis=1, inplace=True)
+    df_transformed.drop(VARS_TO_DROP, axis=1, inplace=True)
     return df_transformed
 
 
@@ -63,7 +62,8 @@ def split_dataset(df_transformed: pd.DataFrame) -> pd.DataFrame:
     :return:
     None
     '''
-    train_set, test_set = train_test_split(transform_data(
-        df_transformed), test_size=TEST_SIZE, random_state=SEED)
+    train_set, test_set = train_test_split(
+        df_transformed, test_size=TEST_SIZE, random_state=SEED)
     train_set.to_csv(NEW_TRAIN_DATA, index=False)
     test_set.to_csv(NEW_TEST_DATA, index=False)
+    return train_set, test_set
