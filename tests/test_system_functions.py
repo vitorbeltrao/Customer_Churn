@@ -10,14 +10,14 @@ from customer_churn_model.etl import import_data, transform_data, split_dataset
 from customer_churn_model.preprocessing import preprocessing
 
 # config
-NEW_DATA = config('NEW_DATA')
+DATASET = config('DATASET')
 TEST_SIZE = config('TEST_SIZE', cast=float)
 TARGET_AFTER_ETL = config('TARGET_AFTER_ETL')
 
 
 def test_import_data():
     '''tests the import_data function made in the etl.py file'''
-    raw_df = import_data(NEW_DATA)
+    raw_df = import_data(DATASET)
 
     assert raw_df.shape[0] > 0
     assert raw_df.shape[1] > 0

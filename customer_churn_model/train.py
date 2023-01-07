@@ -21,7 +21,7 @@ CV_SCORING = config("CV_SCORING")
 CV = config("CV", cast=int)
 TARGET_AFTER_ETL = config('TARGET_AFTER_ETL')
 SEED = config('SEED', cast=int)
-NEW_TRAIN_DATA = config('NEW_TRAIN_DATA')
+TRAIN_DATASET = config('TRAIN_DATASET')
 SAVE_PKL_FILE_NAME = config('SAVE_PKL_FILE_NAME')
 
 
@@ -33,7 +33,7 @@ def train_model() -> list:
     Pandas dataframe
     '''
     # read training data
-    df_train_transformed = import_data(NEW_TRAIN_DATA)
+    df_train_transformed = import_data(TRAIN_DATASET)
 
     # select only the features that we are going to use
     X = df_train_transformed.drop([TARGET_AFTER_ETL], axis=1)

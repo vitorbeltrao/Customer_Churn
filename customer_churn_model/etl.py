@@ -25,9 +25,9 @@ TARGET_BEFORE_ETL = config('TARGET_BEFORE_ETL')
 TARGET_AFTER_ETL = config('TARGET_AFTER_ETL')
 TEST_SIZE = config('TEST_SIZE', cast=float)
 SEED = config('SEED', cast=int)
-NEW_DATA = config('NEW_DATA')
-NEW_TRAIN_DATA = config('NEW_TRAIN_DATA')
-NEW_TEST_DATA = config('NEW_TEST_DATA')
+DATASET = config('DATASET')
+TRAIN_DATASET = config('TRAIN_DATASET')
+TEST_DATASET = config('TEST_DATASET')
 
 
 def import_data(file_path: str) -> pd.DataFrame:
@@ -85,8 +85,8 @@ def split_dataset(df_transformed: pd.DataFrame) -> pd.DataFrame:
     try:
         train_set, test_set = train_test_split(
             df_transformed, test_size=TEST_SIZE, random_state=SEED)
-        train_set.to_csv(NEW_TRAIN_DATA, index=False)
-        test_set.to_csv(NEW_TEST_DATA, index=False)
+        train_set.to_csv(TRAIN_DATASET, index=False)
+        test_set.to_csv(TEST_DATASET, index=False)
         print("Execution of split_dataset: SUCCESS")
         return train_set, test_set
     except OSError:
@@ -98,7 +98,7 @@ def split_dataset(df_transformed: pd.DataFrame) -> pd.DataFrame:
 if __name__ == "__main__":
     logging.info('About to start the etl step of the system')
 
-    raw_df = import_data(NEW_DATA)
+    raw_df = import_data(DATASET)
     logging.info('Execution of import_data: SUCCESS')
 
     df_transformed = transform_data(raw_df)

@@ -12,7 +12,6 @@ from etl import import_data
 SAVE_PKL_FILE_NAME = config('SAVE_PKL_FILE_NAME')
 TARGET_AFTER_ETL = config('TARGET_AFTER_ETL')
 NEW_DATA = config('NEW_DATA')
-NEW_TEST_DATA = config('NEW_TEST_DATA')
 
 # import the pkl file
 _churn_pipeline = joblib.load(SAVE_PKL_FILE_NAME)
