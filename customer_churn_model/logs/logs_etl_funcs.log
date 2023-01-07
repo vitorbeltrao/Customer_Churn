@@ -1,0 +1,5 @@
+root - INFO - About to start the etl step of the system
+root - INFO - Testing import_data: SUCCESS
+root - INFO - Testing transform_data: SUCCESS
+root - INFO - Testing split_dataset: SUCCESS
+root - INFO - Done executing the etl step
