@@ -6,6 +6,7 @@ This .py file is for training and saving the best model
 import warnings
 import logging
 import joblib
+import math
 from lightgbm import LGBMClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
@@ -16,7 +17,7 @@ from preprocessing import preprocessing
 warnings.simplefilter(action='ignore')
 
 logging.basicConfig(
-    filename='./logs/logs_system_funcs.log',
+    filename='./logs/logs_train_funcs.log',
     level=logging.INFO,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
@@ -77,9 +78,14 @@ def train_model() -> list:
     print('The best hyperparameters were:', grid_search.best_params_)
 
     cvres = grid_search.cv_results_
-    for mean_train_score, mean_test_score in zip(cvres['mean_train_score'], cvres['mean_test_score']):
-        print('Mean train score:', mean_train_score)
-        print('Mean validation score:', mean_test_score)
+    cvres = [(mean_test_score,
+              mean_train_score) for mean_test_score,
+             mean_train_score in sorted(zip(cvres['mean_test_score'],
+                                            cvres['mean_train_score']),
+                                        reverse=True) if (math.isnan(mean_test_score) != True)]
+    print(
+        'The mean test score and mean train score is, respectively:',
+        cvres[0])
 
     return joblib.dump(final_model, SAVE_PKL_FILE_NAME)
 

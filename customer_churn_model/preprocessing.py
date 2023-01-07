@@ -22,14 +22,19 @@ def preprocessing(independent_features: pd.DataFrame) -> ColumnTransformer:
     None
     '''
     # divide the qualitative and quantitative features
-    quantitative_columns = selector(dtype_exclude=['object'])
-    qualitative_columns = selector(dtype_include=['object'])
+    try:
+        quantitative_columns = selector(dtype_exclude=['object'])
+        qualitative_columns = selector(dtype_include=['object'])
 
-    quantitative_columns = quantitative_columns(independent_features)
-    qualitative_columns = qualitative_columns(independent_features)
+        quantitative_columns = quantitative_columns(independent_features)
+        qualitative_columns = qualitative_columns(independent_features)
 
-    # apply the respective transformations with columntransformer method
-    preprocessor = ColumnTransformer([
-        ('cat', OneHotEncoder(drop='first'), qualitative_columns)],
-        remainder='passthrough')
-    return preprocessor
+        # apply the respective transformations with columntransformer method
+        preprocessor = ColumnTransformer([
+            ('cat', OneHotEncoder(drop='first'), qualitative_columns)],
+            remainder='passthrough')
+        print("Execution of preprocessing: SUCCESS")
+        return preprocessor
+    except BaseException:
+        print("Execution of preprocessing: FAILED")
+        return None

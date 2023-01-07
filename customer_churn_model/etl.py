@@ -11,7 +11,7 @@ from decouple import config
 
 
 logging.basicConfig(
-    filename='./logs/logs_system_funcs.log',
+    filename='./logs/logs_etl_funcs.log',
     level=logging.INFO,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
@@ -41,10 +41,10 @@ def import_data(file_path: str) -> pd.DataFrame:
     '''
     try:
         raw_df = pd.read_csv(file_path)
-        logging.info("Testing import_data: SUCCESS")
+        print("Execution of import_data: SUCCESS")
         return raw_df
     except FileNotFoundError:
-        logging.error("Testing import_data: The file wasn't found")
+        print("Execution of import_data: The file wasn't found")
         return None
 
 
@@ -65,11 +65,11 @@ def transform_data(raw_df: pd.DataFrame) -> pd.DataFrame:
         df_transformed[TARGET_AFTER_ETL] = raw_df[TARGET_BEFORE_ETL].apply(
             lambda val: 0 if val == "Existing Customer" else 1)
         df_transformed.drop(VARS_TO_DROP, axis=1, inplace=True)
-        logging.info("Testing transform_data: SUCCESS")
+        print("Execution of transform_data: SUCCESS")
         return df_transformed
     except KeyError:
-        logging.error(
-            "Testing transform_data: Any variable subject to the transformations of func not found")
+        print(
+            "Execution of transform_data: Any variable subject to the transformations of func not found")
         return None
 
 
@@ -87,15 +87,23 @@ def split_dataset(df_transformed: pd.DataFrame) -> pd.DataFrame:
             df_transformed, test_size=TEST_SIZE, random_state=SEED)
         train_set.to_csv(NEW_TRAIN_DATA, index=False)
         test_set.to_csv(NEW_TEST_DATA, index=False)
-        logging.info("Testing split_dataset: SUCCESS")
+        print("Execution of split_dataset: SUCCESS")
         return train_set, test_set
     except OSError:
-        logging.error(
-            "Testing split_dataset: Cannot save file into a non-existent directory")
+        print(
+            "Execution of split_dataset: Cannot save file into a non-existent directory")
         return None
 
 
 if __name__ == "__main__":
     logging.info('About to start the etl step of the system')
-    split_dataset(transform_data(import_data(NEW_DATA)))
+
+    raw_df = import_data(NEW_DATA)
+    logging.info('Execution of import_data: SUCCESS')
+
+    df_transformed = transform_data(raw_df)
+    logging.info('Execution of transform_data: SUCCESS')
+
+    split_dataset(df_transformed)
+    logging.info('Execution of split_dataset: SUCCESS')
     logging.info('Done executing the etl step')
