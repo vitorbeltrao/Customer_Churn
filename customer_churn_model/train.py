@@ -81,6 +81,7 @@ def train_model() -> list:
         'The mean test score and mean train score is, respectively:',
         cvres[0])
 
+    print("Execution of train model: SUCCESS")
     return joblib.dump(final_model, SAVE_PKL_FILE_NAME)
 
 
