@@ -6,13 +6,12 @@ the machine learning algorithms using scikit-learn's column
 transformer class
 '''
 import pandas as pd
-import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.compose import make_column_selector as selector
 
 
-def preprocessing(independent_features: pd.DataFrame) -> np.array:
+def preprocessing(independent_features: pd.DataFrame) -> ColumnTransformer:
     '''Functions to make the necessary transformations to feed
     the machine learning algorithm
 
