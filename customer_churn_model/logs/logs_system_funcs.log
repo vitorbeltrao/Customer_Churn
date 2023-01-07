@@ -1,2 +1,2 @@
-root - INFO - About to start the model train step of the system
-root - INFO - Done executing the model train step: SUCCESS
+root - INFO - About to start the prediction
+root - INFO - Done executing the predictions: SUCCESS
