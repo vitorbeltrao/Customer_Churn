@@ -8,8 +8,8 @@ import logging
 import numpy
 from decouple import config
 from math import floor
-from etl_workflow.etl import import_data, transform_data, split_dataset
-from preprocessing import preprocessing
+from customer_churn_model.etl import import_data, transform_data, split_dataset
+from customer_churn_model.preprocessing import preprocessing
 
 
 logging.basicConfig(
