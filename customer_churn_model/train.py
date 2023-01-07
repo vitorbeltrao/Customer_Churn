@@ -16,12 +16,6 @@ from etl import import_data
 from preprocessing import preprocessing
 warnings.simplefilter(action='ignore')
 
-logging.basicConfig(
-    filename='./logs/logs_train_funcs.log',
-    level=logging.INFO,
-    filemode='w',
-    format='%(name)s - %(levelname)s - %(message)s')
-
 # config
 CV_SCORING = config("CV_SCORING")
 CV = config("CV", cast=int)

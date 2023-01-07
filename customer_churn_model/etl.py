@@ -11,7 +11,7 @@ from decouple import config
 
 
 logging.basicConfig(
-    filename='./logs/logs_etl_funcs.log',
+    filename='./logs/logs_system_funcs.log',
     level=logging.INFO,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
