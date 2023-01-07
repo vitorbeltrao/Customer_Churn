@@ -20,10 +20,10 @@ _churn_pipeline = joblib.load(SAVE_PKL_FILE_NAME)
 def predict_churn(input_data: str) -> dict:
     '''
     '''
-    raw_df = import_data(input_data)
+    new_df = import_data(input_data)
     results = {'predictions': None}
 
-    predictions = _churn_pipeline.predict(X=raw_df)
+    predictions = _churn_pipeline.predict(new_df)
 
     results = {
         'predictions': predictions,

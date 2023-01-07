@@ -9,7 +9,9 @@ from customer_churn_model.etl import import_data, transform_data
 
 # config
 DATASET = config('DATASET')
+TEST_DATASET = config('TEST_DATASET')
 TARGET_AFTER_ETL = config('TARGET_AFTER_ETL')
+TARGET_BEFORE_ETL = config('TARGET_BEFORE_ETL')
 
 
 @pytest.fixture()
@@ -34,3 +36,11 @@ def sample_input_X():
     df_transformed = transform_data(raw_df)
     X = df_transformed.drop([TARGET_AFTER_ETL], axis=1)
     return X
+
+
+@pytest.fixture()
+def sample_input_predict():
+    '''Fixture to generate the input for predict function'''
+    raw_df = import_data(TEST_DATASET)
+    df_transformed = raw_df.drop([TARGET_AFTER_ETL], axis=1)
+    return df_transformed.to_csv()

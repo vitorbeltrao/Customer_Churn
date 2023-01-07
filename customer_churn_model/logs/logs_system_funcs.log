@@ -1,2 +1,5 @@
-root - INFO - About to start the prediction
-root - INFO - Done executing the predictions: SUCCESS
+root - INFO - About to start the etl step of the system
+root - INFO - Execution of import_data: SUCCESS
+root - INFO - Execution of transform_data: SUCCESS
+root - INFO - Execution of split_dataset: SUCCESS
+root - INFO - Done executing the etl step

@@ -8,6 +8,7 @@ from math import floor, ceil
 from decouple import config
 from customer_churn_model.etl import import_data, transform_data, split_dataset
 from customer_churn_model.preprocessing import preprocessing
+from customer_churn_model.predict import predict_churn
 
 # config
 DATASET = config('DATASET')
@@ -54,3 +55,14 @@ def test_preprocessing(sample_input_X):
     # Then
     assert X_transformed.shape[0] == len(sample_input_X)
     assert X_transformed.shape[1] == 32
+
+
+def test_predict_churn(sample_input_predict):
+    '''tests the predict_churn function made in the predict.py file'''
+    # Given
+    results = predict_churn(sample_input_predict)
+
+    # Then
+    
+
+   
