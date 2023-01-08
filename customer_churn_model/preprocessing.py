@@ -5,6 +5,7 @@ This .py file is for making the necessary transformations to feed
 the machine learning algorithms using scikit-learn's column
 transformer class
 '''
+import logging
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
@@ -33,8 +34,8 @@ def preprocessing(independent_features: pd.DataFrame) -> ColumnTransformer:
         preprocessor = ColumnTransformer([
             ('cat', OneHotEncoder(drop='first'), qualitative_columns)],
             remainder='passthrough')
-        print("Execution of preprocessing: SUCCESS")
+        logging.info("Execution of preprocessing: SUCCESS")
         return preprocessor
     except BaseException:
-        print("Execution of preprocessing: FAILED")
+        logging.error("Execution of preprocessing: FAILED")
         return None

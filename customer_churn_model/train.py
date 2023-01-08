@@ -32,60 +32,66 @@ def train_model() -> list:
     :return: (dataframe)
     Pandas dataframe
     '''
-    # read training data
-    df_train_transformed = import_data(TRAIN_DATASET)
+    try:
+        # read training data
+        df_train_transformed = import_data(TRAIN_DATASET)
 
-    # select only the features that we are going to use
-    X = df_train_transformed.drop([TARGET_AFTER_ETL], axis=1)
-    y = df_train_transformed[TARGET_AFTER_ETL]
+        # select only the features that we are going to use
+        X = df_train_transformed.drop([TARGET_AFTER_ETL], axis=1)
+        y = df_train_transformed[TARGET_AFTER_ETL]
 
-    # apply the respective transformations with columntransformer method
-    preprocessor = preprocessing(X)
+        # apply the respective transformations with columntransformer method
+        preprocessor = preprocessing(X)
 
-    # Hyperparameter tunning
-    # 1. Instantiate the pipeline
-    final_model = Pipeline(
-        steps=[
-            ('preprocessor', preprocessor),
-            ('scaling', StandardScaler()),
-            ('lgbm', LGBMClassifier(random_state=SEED))
-        ]
-    )
+        # Hyperparameter tunning
+        # 1. Instantiate the pipeline
+        final_model = Pipeline(
+            steps=[
+                ('preprocessor', preprocessor),
+                ('scaling', StandardScaler()),
+                ('lgbm', LGBMClassifier(random_state=SEED))
+            ]
+        )
 
-    # 2. Hyperparameter interval to be tested
-    param_grid = {'lgbm__boosting_type': ['gbdt', 'rf'],
-                  'lgbm__max_depth': [-1, 3, 5, 10, 15, 20, 50, 100],
-                  'lgbm__learning_rate': [0.01, 0.05, 0.1, 0.5, 1]}
+        # 2. Hyperparameter interval to be tested
+        param_grid = {'lgbm__boosting_type': ['gbdt', 'rf'],
+                      'lgbm__max_depth': [-1, 3, 5, 10, 15, 20, 50, 100],
+                      'lgbm__learning_rate': [0.01, 0.05, 0.1, 0.5, 1]}
 
-    # 3. Training and apply grid search with cross validation
-    print('Starting to train the model with cross validation: ...')
-    grid_search = GridSearchCV(
-        final_model,
-        param_grid,
-        cv=CV,
-        scoring=CV_SCORING,
-        return_train_score=True)
-    grid_search.fit(X, y)
+        # 3. Training and apply grid search with cross validation
+        print('Starting to train the model with cross validation: ...')
+        grid_search = GridSearchCV(
+            final_model,
+            param_grid,
+            cv=CV,
+            scoring=CV_SCORING,
+            return_train_score=True)
+        grid_search.fit(X, y)
 
-    # 4. Instantiate best model
-    final_model = grid_search.best_estimator_
-    print('The best hyperparameters were:', grid_search.best_params_)
+        # 4. Instantiate best model
+        final_model = grid_search.best_estimator_
+        print('The best hyperparameters were:', grid_search.best_params_)
 
-    cvres = grid_search.cv_results_
-    cvres = [(mean_test_score,
-              mean_train_score) for mean_test_score,
-             mean_train_score in sorted(zip(cvres['mean_test_score'],
-                                            cvres['mean_train_score']),
-                                        reverse=True) if (math.isnan(mean_test_score) != True)]
-    print(
-        'The mean test score and mean train score is, respectively:',
-        cvres[0])
+        cvres = grid_search.cv_results_
+        cvres = [(mean_test_score,
+                  mean_train_score) for mean_test_score,
+                 mean_train_score in sorted(zip(cvres['mean_test_score'],
+                                                cvres['mean_train_score']),
+                                            reverse=True) if (math.isnan(mean_test_score) != True)]
+        print(
+            'The mean test score and mean train score is, respectively:',
+            cvres[0])
 
-    print("Execution of train model: SUCCESS")
-    return joblib.dump(final_model, SAVE_PKL_FILE_NAME)
+        logging.info("Execution of train model: SUCCESS")
+        return joblib.dump(final_model, SAVE_PKL_FILE_NAME)
+
+    except BaseException:
+        logging.error("Execution of train model: FAILED")
+        return None
 
 
 if __name__ == "__main__":
     logging.info('About to start the model train step of the system')
     train_model()
+    print('The train_model function has been executed: Executed System!')
     logging.info('Done executing the model train step: SUCCESS')

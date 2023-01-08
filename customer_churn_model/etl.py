@@ -41,10 +41,10 @@ def import_data(file_path: str) -> pd.DataFrame:
     '''
     try:
         raw_df = pd.read_csv(file_path)
-        print("Execution of import_data: SUCCESS")
+        logging.info("Execution of import_data: SUCCESS")
         return raw_df
     except FileNotFoundError:
-        print("Execution of import_data: The file wasn't found")
+        logging.error("Execution of import_data: The file wasn't found")
         return None
 
 
@@ -65,10 +65,10 @@ def transform_data(raw_df: pd.DataFrame) -> pd.DataFrame:
         df_transformed[TARGET_AFTER_ETL] = raw_df[TARGET_BEFORE_ETL].apply(
             lambda val: 0 if val == "Existing Customer" else 1)
         df_transformed.drop(VARS_TO_DROP, axis=1, inplace=True)
-        print("Execution of transform_data: SUCCESS")
+        logging.info("Execution of transform_data: SUCCESS")
         return df_transformed
     except KeyError:
-        print(
+        logging.error(
             "Execution of transform_data: Any variable subject to the transformations of func not found")
         return None
 
@@ -87,10 +87,10 @@ def split_dataset(df_transformed: pd.DataFrame) -> pd.DataFrame:
             df_transformed, test_size=TEST_SIZE, random_state=SEED)
         train_set.to_csv(TRAIN_DATASET, index=False)
         test_set.to_csv(TEST_DATASET, index=False)
-        print("Execution of split_dataset: SUCCESS")
+        logging.info("Execution of split_dataset: SUCCESS")
         return train_set, test_set
     except OSError:
-        print(
+        logging.error(
             "Execution of split_dataset: Cannot save file into a non-existent directory")
         return None
 
@@ -99,11 +99,11 @@ if __name__ == "__main__":
     logging.info('About to start the etl step of the system')
 
     raw_df = import_data(DATASET)
-    logging.info('Execution of import_data: SUCCESS')
+    print('The import_data function has been executed')
 
     df_transformed = transform_data(raw_df)
-    logging.info('Execution of transform_data: SUCCESS')
+    print('The transform_data function has been executed')
 
     split_dataset(df_transformed)
-    logging.info('Execution of split_dataset: SUCCESS')
+    print('The split_dataset function has been executed: Executed System!')
     logging.info('Done executing the etl step')
