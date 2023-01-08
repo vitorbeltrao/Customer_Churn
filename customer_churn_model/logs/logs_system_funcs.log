@@ -1,4 +1,4 @@
-root - INFO - About to start the prediction
+root - INFO - About to start the model test step of the system
 root - INFO - Execution of import_data: SUCCESS
-root - INFO - Execution of predict_churn: SUCCESS
-root - INFO - Done executing the predictions: SUCCESS
+root - INFO - Execution of test model: SUCCESS
+root - INFO - Done executing the model test step: SUCCESS
