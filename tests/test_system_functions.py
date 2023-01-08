@@ -12,6 +12,7 @@ from customer_churn_model.predict import predict_churn
 
 # config
 DATASET = config('DATASET')
+NEW_DATA = config('NEW_DATA')
 TEST_SIZE = config('TEST_SIZE', cast=float)
 TARGET_AFTER_ETL = config('TARGET_AFTER_ETL')
 
@@ -57,17 +58,16 @@ def test_preprocessing(sample_input_X):
     assert X_transformed.shape[1] == 32
 
 
-def test_predict_churn(sample_input_predict):
+def test_predict_churn():
     '''tests the predict_churn function made in the predict.py file'''
     # Given
-    results = predict_churn(sample_input_predict)
+    results = predict_churn(NEW_DATA)
+    lst = list(results.items())[0][1]
 
     # Then
-    assert results[:][0] == 0
-    assert results[:][5] == 0
-    assert results[:][14] == 0
-    assert results[:][1670] == 1
-    assert results[:][333] == 1
-    
-
-   
+    assert lst[:][0] == 0
+    assert lst[:][5] == 0
+    assert lst[:][14] == 0
+    assert lst[:][1670] == 1
+    assert lst[:][333] == 1
+    assert isinstance(results, dict)

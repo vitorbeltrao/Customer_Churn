@@ -6,7 +6,7 @@ This .py file is for making predictions for new data
 import logging
 import joblib
 from decouple import config
-from etl import import_data
+from customer_churn_model.etl import import_data
 
 # config
 SAVE_PKL_FILE_NAME = config('SAVE_PKL_FILE_NAME')

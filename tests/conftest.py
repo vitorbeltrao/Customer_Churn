@@ -36,11 +36,3 @@ def sample_input_X():
     df_transformed = transform_data(raw_df)
     X = df_transformed.drop([TARGET_AFTER_ETL], axis=1)
     return X
-
-
-@pytest.fixture()
-def sample_input_predict():
-    '''Fixture to generate the input for predict function'''
-    raw_df = import_data(TEST_DATASET)
-    df_transformed = raw_df.drop([TARGET_AFTER_ETL], axis=1)
-    return df_transformed.to_csv()
