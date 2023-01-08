@@ -63,6 +63,11 @@ def test_predict_churn(sample_input_predict):
     results = predict_churn(sample_input_predict)
 
     # Then
+    assert results[:][0] == 0
+    assert results[:][5] == 0
+    assert results[:][14] == 0
+    assert results[:][1670] == 1
+    assert results[:][333] == 1
     
 
    
