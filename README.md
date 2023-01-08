@@ -1,5 +1,4 @@
 # Predict Customer Churn
-***
 
 ## Table of Contents
 
@@ -40,11 +39,13 @@ In "customer_churn" repository we have:
 ## Running Files <a name="running"></a>
 
 ### Get the data
+
 As a good practice, the .csv file is not included in the package.
 - Save the `bank_data.csv` file in the `customer_churn/data` directory
 - Make sure the directory and file's name is correct
 
 ### Run 
+
 - Add `customer_churn` *and* `customer_churn_model` paths to your system PYTHONPATH
 - Install dependencies through requirements:
 
@@ -55,6 +56,7 @@ As a good practice, the .csv file is not included in the package.
 - To train the model, run in order:
 
     `python customer_churn_model/etl.py`
+
     `python customer_churn_model/train.py`
 
     The trained model will be saved in `customer_churn_model/customer_churn_model.pkl` and will be ready to be used to make predictions
