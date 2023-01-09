@@ -59,7 +59,7 @@ As a good practice, the .csv file is not included in the package.
 
     `python customer_churn_model/train.py`
 
-    The trained model will be saved in `customer_churn_model/customer_churn_model.pkl` and will be ready to be used to make predictions
+    The trained model will be saved in `customer_churn_model/customer_churn_model.pkl` and will be ready to be used to make predictions. In addition, an image with the importance of the variables used to train the model will also be saved.
 
 ### Test model
 

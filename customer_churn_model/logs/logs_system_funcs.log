@@ -1,4 +1,6 @@
-root - INFO - About to start the model test step of the system
+root - INFO - About to start the model train step of the system
 root - INFO - Execution of import_data: SUCCESS
-root - INFO - Execution of test model: SUCCESS
-root - INFO - Done executing the model test step: SUCCESS
+root - INFO - Execution of preprocessing: SUCCESS
+root - INFO - Execution of train model: SUCCESS
+root - INFO - Execution of feature_importance_plot: SUCCESS
+root - INFO - Done executing the model train step: SUCCESS
