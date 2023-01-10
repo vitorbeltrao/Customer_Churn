@@ -81,6 +81,8 @@ As a good practice, the .csv file is not included in the package.
 - Run the tests
 
     `pytest`
+
+    The tests of the functions used are in the `customer_churn/test_system_functions.py` folder and to run them just write the code above in the terminal. In that folder are the tests that cover the production functions that are in the `customer_churn_model/customer_churn_model` folder.
 ***
 
 ## Licensing and Author <a name="licensingandauthors"></a>

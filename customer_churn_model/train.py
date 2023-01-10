@@ -85,11 +85,11 @@ def train_model() -> list:
             'The mean test score and mean train score is, respectively:',
             cvres[0])
 
-        logging.info("Execution of train model: SUCCESS")
+        logging.info('Execution of train model: SUCCESS')
         return final_model, joblib.dump(final_model, SAVE_PKL_FILE_NAME)
 
     except BaseException:
-        logging.error("Execution of train model: FAILED")
+        logging.error('Execution of train model: FAILED')
         return None
 
 
@@ -109,26 +109,26 @@ def feature_importance_plot(model: Pipeline) -> plt.figure:
 
         indices = np.argsort(importances)
 
-        fig, ax = plt.subplots(figsize=(8, 20))
-        ax.barh(range(len(importances)), importances[indices])
-        ax.set_yticks(range(len(importances)))
-        _ = ax.set_yticklabels(
+        fig, axis = plt.subplots(figsize=(8, 20))
+        axis.barh(range(len(importances)), importances[indices])
+        axis.set_yticks(range(len(importances)))
+        _ = axis.set_yticklabels(
             np.array(model[:-1].get_feature_names_out())[indices])
         plt.savefig(RESULT_IMAGES_PATH + 'output_feature_importance.png')
         plt.show()
-        logging.info("Execution of feature_importance_plot: SUCCESS")
+        logging.info('Execution of feature_importance_plot: SUCCESS')
 
     except AttributeError:
         logging.error(
-            "Execution of feature importance: FAILED. It looks like the input you are trying to pass is not correct ")
+            'Exec of feature importance:FAILED.Looks the input you are trying to pass isnt correct')
         return None
 
 
 if __name__ == "__main__":
     logging.info('About to start the model train step of the system')
-    final_model, _ = train_model()
+    FINAL_MODEL, _ = train_model()
     print('The train_model function has been executed')
 
-    feature_importance_plot(final_model)
+    feature_importance_plot(FINAL_MODEL)
     print('The feature_importance_plot function has been executed: Executed System!')
     logging.info('Done executing the model train step: SUCCESS')

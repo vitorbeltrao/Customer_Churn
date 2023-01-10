@@ -69,7 +69,7 @@ def transform_data(raw_df: pd.DataFrame) -> pd.DataFrame:
         return df_transformed
     except KeyError:
         logging.error(
-            "Execution of transform_data: Any variable subject to the transformations of func not found")
+            "Execution of transform_data: Any variable subject to the transformations not found")
         return None
 
 
@@ -98,12 +98,12 @@ def split_dataset(df_transformed: pd.DataFrame) -> pd.DataFrame:
 if __name__ == "__main__":
     logging.info('About to start the etl step of the system')
 
-    raw_df = import_data(DATASET)
+    RAW_DF = import_data(DATASET)
     print('The import_data function has been executed')
 
-    df_transformed = transform_data(raw_df)
+    DF_TRANSFORMED = transform_data(RAW_DF)
     print('The transform_data function has been executed')
 
-    split_dataset(df_transformed)
+    split_dataset(DF_TRANSFORMED)
     print('The split_dataset function has been executed: Executed System!')
     logging.info('Done executing the etl step')
